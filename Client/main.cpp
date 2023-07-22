@@ -1,7 +1,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!   Nain для клиенской части
 #include <iostream>
 #include <vector>
-
+#include "prepMess.h"
+#include "client.h"
 //#include <map>
 //#include <Windows.h>
 //#include "RunLogPass.h"
@@ -20,38 +21,6 @@
 
  int main() 
 {
-//----------------------------------------------------------------------
-std::string tempOP;
-char* op;//запись символа операции
-//----------------------------------------------------------------------
-	while (true) {
-		std::cout << "Press key:'q'-quit, 'n'-create , 'd'-delete , 'e'-enter , 's'- show\n";
-		//std::cout << "Выберите опцию:'в'-Выход, 'н'-Создать нового пользователя , 'л'-Войти под лог. и паролем\n";
-		std::cout << ">> ";
-		std::cin >> tempOP;
-		if (tempOP.size() == 1) {
-			std::vector<char>chars(tempOP.begin(), tempOP.end());//преобразователь string ->char
-			chars.push_back('\0');
-			op = &chars[0];
-
-			if (*op == 'q') {
-				exit(0);
-			}
-			switch (*op) {
-			case'n':
-				sizePassLog = lgPass->addLogPass();
-				lgPass->printLogPass();
-				break;
-			case'e':
-				if (lgPass->enterLogPass())
-					lgPass->showMessages();
-				break;
-			defalt:
-				std::cout << "Неправильно выбрали букву";
-			}
-		}
-	}
-//----------------------------------------------------------------------
-
+    sendRequest();
 	return 0;
 }
