@@ -54,10 +54,10 @@ void processRequest()  {
     close(socket_file_descriptor);
 }
  
-int main() {
+/*int main() {
     cout << "SERVER IS LISTENING THROUGH THE PORT: " << PORT << " WITHIN A LOCAL SYSTEM" << endl;
     // Запускаем функцию обработки сообщений от клиентов и ответа на эти сообщения
     processRequest();
     return 0;
-}
+}*/
 
