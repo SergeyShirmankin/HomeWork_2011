@@ -6,7 +6,6 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include "sendResMess.h"
  //-----------------------------------------------------------------
 char buffer[MESSAGE_BUFFER]; 
 char message[MESSAGE_BUFFER];
