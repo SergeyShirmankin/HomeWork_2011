@@ -3,6 +3,7 @@
 #include <vector>
 #include "prepMess.h"
 #include "client.h"
+
 //#include <map>
 //#include <Windows.h>
 //#include "RunLogPass.h"
@@ -21,6 +22,7 @@
 
  int main() 
 {
-    sendRequest();
+ 
+	sendRequest();
 	return 0;
 }

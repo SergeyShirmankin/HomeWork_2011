@@ -1,4 +1,4 @@
-// 
+#include "User.h" 
 #include "server.h"
 #include <iostream>
 #include <stdlib.h>
@@ -6,7 +6,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-
+#include "sendResMess.h"
  //-----------------------------------------------------------------
 char buffer[MESSAGE_BUFFER]; 
 char message[MESSAGE_BUFFER];
@@ -16,6 +16,21 @@ const char *end_string = "end";
 struct sockaddr_in serveraddress, client;
 std::string tempCin; 
 std::string tempMessage;
+User user;
+//-------------------------------------------------------------------------------------
+std::string  recivMess(char arryChar[]) //формирование сообщения для полученная с сервера  
+{
+     char tempChar='t';//инициализация пустой ячейки  значением "temp"
+     int i=0;
+     std::string tempStr="";
+     while(tempChar!='\0')
+     {
+        tempChar=arryChar[i];
+        tempStr = tempStr + tempChar;
+        i++;
+     }
+     return  tempStr;
+}
 //------------------------------------------------------------------ 
 void processRequest()  {
     // Создадим UDP сокет 
@@ -37,13 +52,17 @@ void processRequest()  {
             close(socket_file_descriptor);
             exit(0);
         }
-        std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
+      //  if(!(sizeof(buffer)/sizeof(char)))//если пустое сообщение то ничего не делать иначе распарсить сообщение
+            user.readUser(buffer);
+            std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
         // ответим клиенту
-       std::cout << "Введите ответное сообщение клиенту >> " << std::endl;
-        std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
-		tempMessage = tempCin + " " + tempMessage;
-        strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
-        sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+     //   std::cout << "Введите ответное сообщение клиенту >> " << std::endl;
+     //   std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
+	//    tempMessage = tempCin + " " + tempMessage;
+       // "Press key:'q'-quit, 'n'-create , 'd'-delete , 'e'-enter , 's'- show\n";
+       // StartMessage(true);
+     //   strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
+     //   sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
     }
  
     // закрываем сокет, завершаем соединение
