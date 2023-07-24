@@ -27,13 +27,7 @@ public:
 
 	void readUser(char str[]);
 	Log_pass();//Конструктор по умолчанию
-   
-	
-	//Добавить логин и пароль, входной параметр: запрос на изменеия состояния 
-	//Выходной параметр это результат работы: 1 программа не изменила состояние 
-	// 2 успешный результат 
-	int addLogPass();//добавить логин и пароль
-	
+    std::string addLogPass(std::string reqest);
 	Log_pass* getPtrObject();
 	bool enterLogPass();
 	void showMessages();
