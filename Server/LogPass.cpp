@@ -4,9 +4,13 @@
 #define DEBUG
 Log_pass::Log_pass()//конструктор по умолчанию
 {
-	int a = 1; // пустая операция, чтобы не было ошибок
+	StateProgram=1;
 }
 
+void Log_pass::set_StateProgram(int newStateProgram)
+{
+	StateProgram= newStateProgram;
+}
 void Log_pass::set_NameUserSend(const std::string& newNameUserSend)
 {
 	NameUserSend = newNameUserSend;
@@ -56,6 +60,10 @@ std::string& Log_pass::get_PasswordUser()
 	std::string& Log_pass::get_Messaqge()
   {
      return Messaqge;
+  }
+  int Log_pass::get_StateProgram()
+  {
+    return StateProgram;
   }
 
 void Log_pass::readUser(char arrChar[])

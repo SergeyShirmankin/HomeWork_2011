@@ -2,7 +2,7 @@
 #include <vector>
 #include "server.h"
 #include "RunLogPass.h" 
-#include "LogPass.h"
+//#include "LogPass.h"
  int main() 
 {
     

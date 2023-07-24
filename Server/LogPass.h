@@ -13,13 +13,17 @@ public:
 	void set_Request(const std::string& );
 	void set_CurrentState(const std::string&) ;
 	void set_Messaqge(const std::string& );
+    void set_StateProgram(int );
 
+	
 	std::string& get_PasswordUser();
 	std::string& get_NameUserSend();
 	std::string& get_NameUserRecive();
 	std::string& get_Request();
 	std::string& get_CurrentState();
 	std::string& get_Messaqge();
+    int get_StateProgram();
+
 
 	void readUser(char str[]);
 	Log_pass();//Конструктор по умолчанию
@@ -35,7 +39,12 @@ public:
 	int writeMess();
 //-----------------------------------------------------------------------
 private:
+	int StateProgram;
+	
 	Log_pass* ptrObject;// Указатель на обьект
+    std::string login;//поле логина в обьекте
+    std::string password;// поле пароля в обьектн
+
     std::string PasswordUser;//Пароль пользователя  отправителя сообщения
     std::string NameUserSend;// Имя пользователя  отправителя сообщения 
     std::string NameUserRecive;//  Имя пользователя принимающего сообщения 
