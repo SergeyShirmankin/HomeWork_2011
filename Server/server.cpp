@@ -1,4 +1,4 @@
-#include "User.h" 
+#include "LogPass.h"
 #include "server.h"
 #include <iostream>
 #include <stdlib.h>
@@ -15,7 +15,8 @@ const char *end_string = "end";
 struct sockaddr_in serveraddress, client;
 std::string tempCin; 
 std::string tempMessage;
-User user;
+Log_pass  objLogPass;
+//auto it = _log_pass.find(user.get_PasswordUser()); 
 //-------------------------------------------------------------------------------------
 std::string  recivMess(char arryChar[]) //формирование сообщения для полученная с сервера  
 {
@@ -52,7 +53,7 @@ void processRequest()  {
             exit(0);
         }
       //  if(!(sizeof(buffer)/sizeof(char)))//если пустое сообщение то ничего не делать иначе распарсить сообщение
-            user.readUser(buffer);
+           objLogPass.readUser(buffer);
             std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
         // ответим клиенту
      //   std::cout << "Введите ответное сообщение клиенту >> " << std::endl;
