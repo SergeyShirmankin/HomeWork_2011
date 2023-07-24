@@ -15,6 +15,7 @@ const char *end_string = "end";
 struct sockaddr_in serveraddress, client;
 std::string tempCin; 
 std::string tempMessage;
+
 Log_pass  objLogPass;
 //auto it = _log_pass.find(user.get_PasswordUser()); 
 //-------------------------------------------------------------------------------------
@@ -32,7 +33,12 @@ std::string  recivMess(char arryChar[]) //формирование сообще�
      return  tempStr;
 }
 //------------------------------------------------------------------ 
-void processRequest()  {
+//-------основная функция программы------Сервер--------------------
+//---Все программы будут работать в констексте данной программы----- 
+//------------------------------------------------------------------
+void processRequest() 
+ {
+   // Log_pass* lgPass = new Log_pass; // Создаем обьект логина и пароля
     // Создадим UDP сокет 
     socket_file_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
     serveraddress.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -53,7 +59,8 @@ void processRequest()  {
             exit(0);
         }
       //  if(!(sizeof(buffer)/sizeof(char)))//если пустое сообщение то ничего не делать иначе распарсить сообщение
-           objLogPass.readUser(buffer);
+            objLogPass.readUser(buffer);
+           objLogPass.set_CurrentState(objLogPass.addLogPass(objLogPass.get_Request()));
             std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
         // ответим клиенту
      //   std::cout << "Введите ответное сообщение клиенту >> " << std::endl;

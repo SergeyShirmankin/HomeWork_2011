@@ -168,6 +168,7 @@ int Log_pass::AddScore(int idNumber, Messages score)
   //4. Такой лог или пароль уже есть
 std::string Log_pass::addLogPass(std::string reqest)
 {
+  int a=5;
 	/*std::cout << " Введите логин нового пользователя: " << std::endl;
 	std::cout << ">> ";
 	std::cin >> login;//Вводим новый логин	*/			  
