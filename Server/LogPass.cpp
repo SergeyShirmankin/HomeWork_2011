@@ -5,6 +5,7 @@
 Log_pass::Log_pass()//конструктор по умолчанию
 {
 	StateProgram=1;
+  countObjectLogPass=0;
 }
 
 void Log_pass::set_StateProgram(int newStateProgram)
@@ -166,27 +167,29 @@ int Log_pass::AddScore(int idNumber, Messages score)
 	//2. Создание нового лога и пароля 
   //3. Успешное создание лога и павроля 
   //4. Такой лог или пароль уже есть
-std::string Log_pass::addLogPass(std::string reqest)
+void Log_pass::addLogPass()
 {
-  int a=5;
-	/*std::cout << " Введите логин нового пользователя: " << std::endl;
-	std::cout << ">> ";
-	std::cin >> login;//Вводим новый логин	*/			  
-	//auto it = _log_pass.find(login);
-  //auto it = _log_pass.find(user.get_PasswordUser()); 
-	/*if (it != _log_pass.end())
-	{
-		std::cout << std::endl;
-		std::cout << ">> Логин уже есть. Выберите другой" << std::endl;
-	}
-	else
-	{
-		std::cout << "Введите нового пароля: " << std::endl;
-		std::cout << ">> ";
-		std::cin >> password;
-		_log_pass.emplace(login, password);
-	}
-	       	countObject++;*/
-	return "1";
-}
+	//Вводим новый логин	*/		
+  if (!CurrentState.compare("1") && !Request.compare("2"))
+  {
+        login = NameUserSend; 
+	      auto it = _log_pass.find(login);
+  
+	    if (it != _log_pass.end())
+	    {
+        //	Логин уже есть. Выберите другой" 
+         StateProgram = 4;
+         CurrentState="4";
+	    }
+	    else
+	  {
+		    // "Введите нового пароля: " 
+		      password = PasswordUser;
+		      _log_pass.emplace(login, password);//создание записи в памяти компьютера
+          countObjectLogPass++;
+          StateProgram = 3;
+          CurrentState="3";
+	  }
+   }
+  }
 //-------------------------------------------------------------------------------------------

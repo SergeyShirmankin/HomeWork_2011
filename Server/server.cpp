@@ -60,7 +60,7 @@ void processRequest()
         }
       //  if(!(sizeof(buffer)/sizeof(char)))//если пустое сообщение то ничего не делать иначе распарсить сообщение
             objLogPass.readUser(buffer);
-           objLogPass.set_CurrentState(objLogPass.addLogPass(objLogPass.get_Request()));
+            objLogPass.addLogPass();
             std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
         // ответим клиенту
      //   std::cout << "Введите ответное сообщение клиенту >> " << std::endl;

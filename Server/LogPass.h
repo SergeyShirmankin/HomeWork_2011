@@ -27,7 +27,7 @@ public:
 
 	void readUser(char str[]);
 	Log_pass();//Конструктор по умолчанию
-    std::string addLogPass(std::string reqest);
+    void addLogPass();
 	Log_pass* getPtrObject();
 	bool enterLogPass();
 	void showMessages();
@@ -38,6 +38,7 @@ public:
 	int writeMess();
 //-----------------------------------------------------------------------
 private:
+	int countObjectLogPass;//счетчик обьектов логов и паролей
 	int StateProgram;
 	
 	Log_pass* ptrObject;// Указатель на обьект
