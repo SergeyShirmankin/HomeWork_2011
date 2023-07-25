@@ -63,13 +63,10 @@ void processRequest()
             objLogPass.addLogPass();
             std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
         // ответим клиенту
-     //   std::cout << "Введите ответное сообщение клиенту >> " << std::endl;
-     //   std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
-	//    tempMessage = tempCin + " " + tempMessage;
-       // "Press key:'q'-quit, 'n'-create , 'd'-delete , 'e'-enter , 's'- show\n";
-       // StartMessage(true);
-     //   strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
-     //   sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+          std::string logMessForClient=objLogPass.createMessLogToClient();
+          std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
+          strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char
+          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
     }
  
     // закрываем сокет, завершаем соединение

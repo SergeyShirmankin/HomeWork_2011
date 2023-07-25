@@ -30,7 +30,7 @@ std::string  recivMess(char arryChar[]);
      ---Запрос на создания лога и пароля выглядеть будет так:
          -- PasswordUser:123123
          -- NameUserSend:Misha
-         --  NameUserRecive:-- (нет получателя ) 
+         --  NameUserRecive:-- (нет получателя ) для сообщения
          --  Request:2; 
          --  CarrentState:1
          --  Messaqge:--(нет сообщения)

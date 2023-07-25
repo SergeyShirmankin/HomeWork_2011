@@ -6,6 +6,7 @@
 class Log_pass 
 {
 public:	
+    Log_pass();//Конструктор по умолчанию
     //void set_PasswUser(const std::string& newName);
 	void set_PasswUser(const std::string& );
 	void set_NameUserSend(const std::string& );
@@ -24,10 +25,11 @@ public:
 	std::string& get_Messaqge();
     int get_StateProgram();
 
-
+//----------------------------------------------------------------------
 	void readUser(char str[]);
-	Log_pass();//Конструктор по умолчанию
-    void addLogPass();
+	void addLogPass();
+    std::string createMessLogToClient();
+//----------------------------------------------------------------------
 	Log_pass* getPtrObject();
 	bool enterLogPass();
 	void showMessages();
