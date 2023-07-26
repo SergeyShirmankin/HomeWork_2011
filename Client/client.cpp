@@ -104,9 +104,9 @@ void sendRequest(){
             std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
             std::cout << "Дождитесь ответа от сервера ..." << std::endl;
         
-            // std::cout << "Сообщение полученно от сервера " << std::endl;
-            // recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера 
-            //std::cout <<  buffer << std::endl;
+             std::cout << "Сообщение полученно от сервера " << std::endl;
+             recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера 
+             std::cout <<  buffer << std::endl;
     }
     // закрываем сокет, завершаем соединение
     close(socket_descriptor);

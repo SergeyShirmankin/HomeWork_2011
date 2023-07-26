@@ -199,6 +199,6 @@ std::string Log_pass::createMessLogToClient()
 {
  std::string tempStr;
   //  *123123:Misha:--:2:1:--&
-    tempStr = "*"+password+":"+login+":"+"--:"+"Request"+CurrentState+":--&";
+    tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
   return tempStr;
 }
