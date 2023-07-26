@@ -49,6 +49,7 @@ std::string tempCin;
 std::string tempMessage;
 User user;
 
+
 void sendMess(std::string clientMessage) // формирование строки для  отправки сообщения серверу
 {
      char tempChar='t';//инициализация пустой ячейки  значением "temp"
@@ -80,6 +81,7 @@ void sendRequest(){
     // Создадим сокет 
     socket_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
     // Установим соединение с сервером
+    PrevMess objPrevMess;
     if(connect(socket_descriptor, (struct sockaddr*) &serveraddress, sizeof(serveraddress)) < 0) 
     {
         std::cout << std::endl << " Something went wrong Connection Failed" <<std:: endl;
@@ -88,18 +90,24 @@ void sendRequest(){
     
     while(1)
     {
-         std::cout<<"Для завершения работы наберите  end   или  наберите сообщение серверу "<<std::endl;
+         std::cout<<"Для завершения работы наберите  end   или  log  для создание логина и пароля  или авторизации на сервере "<<std::endl;
          std::cout<< ">>"<< std::endl;
          std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
-		 tempMessage = tempCin + " " + tempMessage;
+	    tempMessage = tempCin + " " + tempMessage;
          strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
-        if (strcmp(message, "end") == 0)  
+ //       if (strcmp(message, "end") == 0)  
+        if (tempMessage.compare("end ")==0) 
         { //Закрываем соединение при отпрвке сообщения "end"
              sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));
              std::cout << "Клиент работу  сделал.!" << std::endl;
              close(socket_descriptor);
              exit(0);
-        }     
+        }   
+           else if (tempMessage.compare("log ")==0)
+           {
+               tempMessage=objPrevMess.InterfaceLogPass( objPrevMess.managerInterLogPass);
+               strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
+           }
             sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
             std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
             std::cout << "Дождитесь ответа от сервера ..." << std::endl;
@@ -107,7 +115,7 @@ void sendRequest(){
              std::cout << "Сообщение полученно от сервера " << std::endl;
              recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера 
              std::cout <<  buffer << std::endl;
-    }
+    }        
     // закрываем сокет, завершаем соединение
     close(socket_descriptor);
  }
