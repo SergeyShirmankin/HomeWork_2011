@@ -29,7 +29,7 @@ std::string PrevMess::addLogPass()
 	std::cout << "Введите нового пароля: " << std::endl;
 	std::cout << ">> ";
 	std::cin >> password;
-    std::string resultStr=login+":"+password;
+    std::string resultStr=password+":"+login ;
 	return resultStr;
 }
 
@@ -53,7 +53,7 @@ std::string PrevMess::InterfaceLogPass(bool StartFunction)//Создаесм с�
 			{
 			case'n':
 				 tempStr=addLogPass();
-				 tempStr=tempStr+":--:2:1:--&";
+				 tempStr="*"+tempStr+":--:2:1:--&";
 				 return tempStr;
 			case'e':
 				//if (lgPass->enterLogPass())

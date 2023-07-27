@@ -82,6 +82,7 @@ void Log_pass::readUser(char arrChar[])
         
         line=recivMess(arrChar);
 		    posBegin = line.find(markerBegin);
+        //posBegin = 0;
         posEnd = line.find(markerEnd);
         if (posEnd!=std::string::npos||posBegin!=std::string::npos )
         {
@@ -90,7 +91,7 @@ void Log_pass::readUser(char arrChar[])
           
             #ifdef DEBUG 
              tempPassword=get_PasswordUser();
-             std::cout<< tempPassword<<std::endl;
+             std::cout<<"Password = "<< tempPassword<<std::endl;
             #endif
              
              oldPos=pos;
@@ -101,7 +102,7 @@ void Log_pass::readUser(char arrChar[])
             
              #ifdef DEBUG 
              tempLogin=get_NameUserSend();
-             std::cout<<tempLogin<<std::endl;
+             std::cout<<"NameUserSen = "<<tempLogin<<std::endl;
              #endif
              oldPos=pos;
 
@@ -110,7 +111,7 @@ void Log_pass::readUser(char arrChar[])
              
              #ifdef DEBUG 
              tempLogin=get_NameUserRecive();
-             std::cout<<tempLogin<<std::endl;
+             std::cout<<"NameUserReciv = "<<tempLogin<<std::endl;
             #endif
              oldPos=pos;
             
@@ -119,7 +120,7 @@ void Log_pass::readUser(char arrChar[])
              
              #ifdef DEBUG 
              tempLogin=get_Request();
-             std::cout<<tempLogin<<std::endl;
+             std::cout<<"Request = "<<tempLogin<<std::endl;
              #endif
 
              oldPos=pos;
@@ -129,7 +130,7 @@ void Log_pass::readUser(char arrChar[])
             
              #ifdef DEBUG 
              tempLogin=get_CurrentState();
-             std::cout<<tempLogin<<std::endl;
+             std::cout<<"CurrentState = "<<tempLogin<<std::endl;
              #endif
             
             oldPos=pos;
@@ -139,7 +140,7 @@ void Log_pass::readUser(char arrChar[])
             
              #ifdef DEBUG 
              tempLogin=get_Messaqge();
-             std::cout<<tempLogin<<std::endl;
+             std::cout<<tempLogin<<"Messaqge = "<<tempLogin<<std::endl;
              #endif
           
         }
@@ -170,6 +171,7 @@ int Log_pass::AddScore(int idNumber, Messages score)
 void Log_pass::addLogPass()
 {
 	//Вводим новый логин	*/		
+
   if (!CurrentState.compare("1") && !Request.compare("2"))
   {
         login = NameUserSend; 
@@ -178,8 +180,8 @@ void Log_pass::addLogPass()
 	    if (it != _log_pass.end())
 	    {
         //	Логин уже есть. Выберите другой" 
-         StateProgram = 4;
-         CurrentState="4";
+         StateProgram = 5;
+         CurrentState="5";
 	    }
 	    else
 	  {
@@ -191,6 +193,11 @@ void Log_pass::addLogPass()
           CurrentState="3";
 	  }
    }
+   else
+    {
+          StateProgram = 4;//значения по умолчанию
+          CurrentState="4";
+    }
   }
 //-------------------------------------------------------------------------------------------
 //---------------------------Создание сообщения----------------------------------------------
