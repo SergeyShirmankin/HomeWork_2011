@@ -1,6 +1,6 @@
 #include <iostream>
 #include "LogPass.h"
-#include "server.h"
+#include "client.h"
 #define DEBUG
 Log_pass::Log_pass()//конструктор по умолчанию
 {
@@ -67,7 +67,8 @@ std::string& Log_pass::get_PasswordUser()
     return StateProgram;
   }
 
-void Log_pass::parser(char arrChar[])
+
+void Log_pass::parserMessage(char arrChar[])
 {
         std::string delimiter=":";
         std::string line;
@@ -145,98 +146,3 @@ void Log_pass::parser(char arrChar[])
           
         }
 }
-
-//=======================================================================================================
-int Log_pass::AddScore(int idNumber, Messages score)
-{
-	auto it = _messages.find(idNumber);
-	if (it != _messages.end())
-	{
-		score = it->second;
-	}
-	else
-		_messages.emplace(idNumber, score);
-	return _messages.size();
-}
-
-//------------------------------------------------------------------------------------------------------
-//-----------------Обработка сообщения---------------------------------------
-//------------------------------------------------------------------------------------------------------
-	//Добавить логин и пароль, входной параметр: запрос на изменеия состояния 
-	//Выходной параметр это результат работы: 
-	//1. программа не изменила состояние 
-	//2. Создание нового лога и пароля 
-  //3. Успешное создание лога и павроля 
-  //4. Такой лог или пароль уже есть
-void Log_pass::addLogPass()
-{
-	//Вводим новый логин	*/		
-
-  if (!CurrentState.compare("1") && !Request.compare("2"))
-  {
-        login = NameUserSend; 
-	      auto it = _log_pass.find(login);
-  
-	    if (it != _log_pass.end())
-	    {
-        //	Логин уже есть. Выберите другой" 
-         StateProgram = 5;
-         CurrentState="5";
-	    }
-	    else
-	  {
-		    // "Введите нового пароля: " 
-		      password = PasswordUser;
-		      _log_pass.emplace(login, password);//создание записи в памяти компьютера
-          countObjectLogPass++;
-          StateProgram = 3;
-          CurrentState="3";
-	  }
-   }
-   else
-    {
-          StateProgram = 4;//значения по умолчанию
-          CurrentState="4";
-    }
-  }
-//-------------------------------------------------------------------------------------------
-//---------------------------Создание сообщения----------------------------------------------
-//-------------------------------------------------------------------------------------------
-std::string Log_pass::createMessLogToClient()
-{
- std::string tempStr;
-  //  *123123:Misha:--:2:1:--&
-    tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
-  return tempStr;
-}
-//-----------------------------------------------------------------------------------------------
-// ----------------------------Функция авторизациии---------------------------------------------
-//---------------------------------------------------------------------------------------------
-bool Log_pass::enterLogPass()
-{
-	bool resultCompare = false;
-	std::string _password;
-	std::string _login;
-	std::cout << " Введите логин нового пользователя: " << std::endl;
-	std::cout << ">> ";
-	std::cin >> _login;//Вводим новый логин
-	std::cout << "Введите пароль\n";
-	std::cout << ">> ";
-	std::cin >> _password;
-	int i = -1;
-	/*printLogPass();
-	for (auto it = _log_pass.begin(); it != _log_pass.end(); ++it)
-	{ 
-	    i++;
-		if (!(_login.compare(it->first))&& !(_password.compare(it->first)))
-       	{
- 			curSesion = i;
-			currUser = it->first;
-    		resultCompare = true;
-			return true;
-    	}
-	}
-		return false;
-		std::cout << "Not access.\n ";*/
-}
-

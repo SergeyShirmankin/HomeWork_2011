@@ -41,7 +41,7 @@ std::string PrevMess::InterfaceLogPass(bool StartFunction)//Создаесм с�
 //----------------------------------------------------------------------
 	if( StartFunction)
 	{
-		std::cout << "Press key:''n'-create , 'e'-enter \n";
+		std::cout << "Press key:''n'-create ";
 		std::cout << ">> ";
 		std::cin >> tempOP;
 		if (tempOP.size() == 1)
@@ -55,10 +55,6 @@ std::string PrevMess::InterfaceLogPass(bool StartFunction)//Создаесм с�
 				 tempStr=addLogPass();
 				 tempStr="*"+tempStr+":--:2:1:--&";
 				 return tempStr;
-			case'e':
-				//if (lgPass->enterLogPass())
-				//	lgPass->showMessages();
-				return "h"; 
 			defalt:
 				std::cout << "Неправильно выбрали букву";
 			}

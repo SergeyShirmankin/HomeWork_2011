@@ -1,3 +1,4 @@
+#include "LogPass.h"
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
@@ -7,6 +8,7 @@
 #include "client.h"
 #include "prepMess.h"
 #include "User.h" 
+#define ESC "\033"
 /* У клиента с сервером есть поля сообения и они будут кодироваться так:
   -- программа имеет немколько состояний:
      1. состояние: программа не активна т.е нет подключения нет сообщений 
@@ -39,6 +41,7 @@
          --  CarrentState:1
          --  Messaqge:--(нет сообщения)
     
+
             *123123:Misha:--:2:1:--&
 
  //----------------------------------------------------------------------           
@@ -52,7 +55,8 @@ struct sockaddr_in serveraddress;
 std::string tempCin; 
 std::string tempMessage;
 User user;
-
+Log_pass  objLogPass;
+std::string tempStateProgram;
 
 void sendMess(std::string clientMessage) // формирование строки для  отправки сообщения серверу
 {
@@ -94,7 +98,7 @@ void sendRequest(){
     
     while(1)
     {
-         std::cout<<"Для завершения работы наберите  end   или  log  для создание логина и пароля  или авторизации на сервере "<<std::endl;
+         std::cout<<"Для завершения работы наберите  end   или  log  для создание логина и пароля  enter авторизации на сервере "<<std::endl;
          std::cout<< ">>"<< std::endl;
          std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
 	    tempMessage = tempCin + " " + tempMessage;
@@ -107,18 +111,48 @@ void sendRequest(){
              close(socket_descriptor);
              exit(0);
         }   
-           else if (tempMessage.compare("log ")==0)
-           {
-               tempMessage=objPrevMess.InterfaceLogPass( objPrevMess.managerInterLogPass);
-               strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
-           }
+         else if (tempMessage.compare("log ")==0)
+         {
+            tempMessage=objPrevMess.InterfaceLogPass( objPrevMess.managerInterLogPass);//Создаесм стартовое окно для создания логина и пароля или авторизация на сервере
+            strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
+         }
+            else if (tempMessage.compare("enter ")==0)
+         {
+             //  tempMessage=objPrevMess.InterfaceLogPass( objPrevMess.managerInterLogPass);/Создаесм стартовое окно для создания логина и пароля или авторизация на сервере
+            //   strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
+         }
             sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
             std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
             std::cout << "Дождитесь ответа от сервера ..." << std::endl;
         
-             std::cout << "Сообщение полученно от сервера " << std::endl;
-             recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера 
-             std::cout <<  buffer << std::endl;
+             //std::cout << "Сообщение полученно от сервера " << std::endl;
+             recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
+             objLogPass.parserMessage(buffer);
+             //std::cout << "Сообщение полученно от сервера " << std::endl; 
+            
+             tempStateProgram=objLogPass.get_CurrentState();
+             if(tempStateProgram.compare("3")==0)// успешное создание лога и пароля 
+              {
+                  std::cout << "\n>> Сообщение полученно от сервера\n " ;
+                 std::cout <<">> Успешное создание лога и павроля!!!\n";
+              }
+             else if(tempStateProgram.compare("4")==0)//Не удалось создать  лог ипароль 
+              {
+                 std::cout << "\n>> Сообщение полученно от сервера\n " ;
+                 std::cout<<">> Не удалось создать логин ипароль!!!\n ";
+              }
+             else if(tempStateProgram.compare("5")==0)//Такой логин и пароль уже есть 
+              {
+                std::cout << "\n>> Сообщение полученно от сервера \n" ;
+                std::cout<<">> Такой пароль уже есть!!!\n" ;
+              }
+              else 
+              {
+                std::cout << "Сервер не отвечает " << std::endl;;
+              }
+             // objLogPass.addLogPass();
+             // std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
+             // std::cout <<  buffer << std::endl;
     }        
     // закрываем сокет, завершаем соединение
     close(socket_descriptor);

@@ -15,7 +15,8 @@ const char *end_string = "end";
 struct sockaddr_in serveraddress, client;
 std::string tempCin; 
 std::string tempMessage;
-
+std::string tempStateprogram;
+std::string tempRequest;
 Log_pass  objLogPass;
 //auto it = _log_pass.find(user.get_PasswordUser()); 
 //-------------------------------------------------------------------------------------
@@ -48,24 +49,34 @@ void processRequest()
     serveraddress.sin_family = AF_INET;
     // Привяжем сокет 
     bind(socket_file_descriptor, (struct sockaddr*)&serveraddress, sizeof(serveraddress));
-    while(1)  {
+    while(1)  
+    {
         // Длина сообщения от клиента
         length = sizeof(client);
         message_size = recvfrom(socket_file_descriptor, buffer, sizeof(buffer), 0, (struct sockaddr*)&client, &length);
         buffer[message_size] = '\0';
-        if(strcmp(buffer, end_string) == 0)  {
+        if(strcmp(buffer, end_string) == 0)  
+        {
            std::cout << "Server is Quitting" << std::endl;
             close(socket_file_descriptor);
             exit(0);
         }
-      //  if(!(sizeof(buffer)/sizeof(char)))//если пустое сообщение то ничего не делать иначе распарсить сообщение
-            objLogPass.readUser(buffer);
+
+        objLogPass.parser(buffer);
+        tempRequest=objLogPass.get_Request();
+       
+        if(tempRequest.compare("2")==0)// Создание нового лога и пароля
             objLogPass.addLogPass();
-            std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
-        // ответим клиенту
+             // std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
+
+        else if(tempRequest.compare("6")==0) //Авторизация  на лог и пароль 
+            objLogPass.enterLogPass();
+
+
           std::string logMessForClient=objLogPass.createMessLogToClient();
           std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
           strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char
+          // ответим клиенту
           sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
     }
  
