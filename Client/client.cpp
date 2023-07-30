@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include "client.h"
 #include "prepMess.h"
-#include "User.h" 
+//#include "User.h" 
 #define ESC "\033"
 /* У клиента с сервером есть поля сообения и они будут кодироваться так:
   -- программа имеет немколько состояний:
@@ -54,7 +54,7 @@ int socket_descriptor;
 struct sockaddr_in serveraddress;
 std::string tempCin; 
 std::string tempMessage;
-User user;
+//User user;
 Log_pass  objLogPass;
 std::string tempStateProgram;
 
@@ -98,7 +98,7 @@ void sendRequest(){
     
     while(1)
     {
-         std::cout<<"Для завершения работы наберите  end   или  log  для создание логина и пароля  enter авторизации на сервере "<<std::endl;
+         std::cout<<"Для завершения работы наберите  --end--   или  --log--  для создание логина и пароля  --enter-- авторизации на сервере "<<std::endl;
          std::cout<< ">>"<< std::endl;
          std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
 	    tempMessage = tempCin + " " + tempMessage;
@@ -118,8 +118,8 @@ void sendRequest(){
          }
             else if (tempMessage.compare("enter ")==0)
          {
-             //  tempMessage=objPrevMess.InterfaceLogPass( objPrevMess.managerInterLogPass);/Создаесм стартовое окно для создания логина и пароля или авторизация на сервере
-            //   strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
+              tempMessage=objPrevMess.enterLogPass(objLogPass.get_StateProgram());//Авторизация под логинои и паролем
+              strcpy(message ,tempMessage.c_str());
          }
             sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
             std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
@@ -145,6 +145,16 @@ void sendRequest(){
               {
                 std::cout << "\n>> Сообщение полученно от сервера \n" ;
                 std::cout<<">> Такой пароль уже есть!!!\n" ;
+              }
+             else if(tempStateProgram.compare("7")==0)//Такой логин и пароль уже есть 
+              {
+                std::cout << "\n>> Сообщение полученно от сервера \n" ;
+                std::cout<<">> Успешное авторизация!!!!\n" ;
+              }
+             else if(tempStateProgram.compare("8")==0)//Такой логин и пароль уже есть 
+              {
+                std::cout << "\n>> Сообщение полученно от сервера \n" ;
+                std::cout<<">> Нету доступа!!!\n" ;
               }
               else 
               {

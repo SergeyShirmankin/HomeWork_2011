@@ -212,31 +212,33 @@ std::string Log_pass::createMessLogToClient()
 //-----------------------------------------------------------------------------------------------
 // ----------------------------Функция авторизациии---------------------------------------------
 //---------------------------------------------------------------------------------------------
-bool Log_pass::enterLogPass()
+std::string Log_pass::enterLogPass()
 {
-	bool resultCompare = false;
-	std::string _password;
-	std::string _login;
-	std::cout << " Введите логин нового пользователя: " << std::endl;
-	std::cout << ">> ";
-	std::cin >> _login;//Вводим новый логин
-	std::cout << "Введите пароль\n";
-	std::cout << ">> ";
-	std::cin >> _password;
+  std::string tempStr;
+	std::string _password;	
+  std::string _login;
+  _password= PasswordUser;
+  _login=NameUserSend;
+  bool resultCompare = false;
 	int i = -1;
-	/*printLogPass();
+	
 	for (auto it = _log_pass.begin(); it != _log_pass.end(); ++it)
 	{ 
 	    i++;
-		if (!(_login.compare(it->first))&& !(_password.compare(it->first)))
+		if (!(_login.compare(it->first))&& !(_password.compare(it->second)))
        	{
- 			curSesion = i;
-			currUser = it->first;
-    		resultCompare = true;
-			return true;
+ 		    	curSession = i;
+		    	currUser = it->first;
+      		resultCompare = true;
+          CurrentState = "7";
+          tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
+          return tempStr;
     	}
 	}
-		return false;
-		std::cout << "Not access.\n ";*/
+	// "Not access.\n ";
+  // *123123:Misha:--:2:1:--&
+    CurrentState = "8";
+    tempStr = "*:--:--:"+Request+":"+CurrentState+":--&";
+     return tempStr;
 }
 

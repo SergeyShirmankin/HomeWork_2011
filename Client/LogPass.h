@@ -22,12 +22,12 @@ public:
 	std::string& get_Request();
 	std::string& get_CurrentState();
 	std::string& get_Messaqge();
-    int get_StateProgram();
+    std::string get_StateProgram();
 
 //-----------------------------------------------------------------------
 private:
 	int countObjectLogPass;//счетчик обьектов логов и паролей
-	int StateProgram;
+	std::string StateProgram;
 
     std::string PasswordUser;//Пароль пользователя  отправителя сообщения
     std::string NameUserSend;// Имя пользователя  отправителя сообщения 

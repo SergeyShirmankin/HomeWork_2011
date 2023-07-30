@@ -8,6 +8,7 @@ public:
 	//Генератор сообщений для сервера так же это выходной параметр
 	std::string InterfaceLogPass(bool StartFunction);//Создаесм интефайс для пасворда и логина
 	std::string addLogPass();
+	std::string enterLogPass(std::string);
 private:
 	//Log_pass* ptrObject;// Указатель на обьект
 	std::string login;//поле логина

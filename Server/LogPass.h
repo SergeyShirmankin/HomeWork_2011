@@ -31,7 +31,7 @@ public:
     std::string createMessLogToClient();
 //----------------------------------------------------------------------
 	Log_pass* getPtrObject();
-	bool enterLogPass();
+	std::string enterLogPass();
 	void showMessages();
 	void printLogPass();
 //----------------------------------------------------------------------
@@ -42,6 +42,8 @@ public:
 private:
 	int countObjectLogPass;//счетчик обьектов логов и паролей
 	int StateProgram;
+	int curSession ;
+	std::string currUser ;
 	
 	Log_pass* ptrObject;// Указатель на обьект
     std::string login;//поле логина в обьекте

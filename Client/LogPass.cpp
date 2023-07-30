@@ -4,7 +4,7 @@
 #define DEBUG
 Log_pass::Log_pass()//конструктор по умолчанию
 {
-	StateProgram=1;
+	StateProgram="1";
   countObjectLogPass=0;
 }
 
@@ -62,7 +62,7 @@ std::string& Log_pass::get_PasswordUser()
   {
      return Messaqge;
   }
-  int Log_pass::get_StateProgram()
+  std::string Log_pass::get_StateProgram()
   {
     return StateProgram;
   }
@@ -143,6 +143,8 @@ void Log_pass::parserMessage(char arrChar[])
              tempLogin=get_Messaqge();
              std::cout<<tempLogin<<"Messaqge = "<<tempLogin<<std::endl;
              #endif
+
+             StateProgram = CurrentState;
           
         }
 }
