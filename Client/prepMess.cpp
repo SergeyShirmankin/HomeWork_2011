@@ -81,3 +81,7 @@ std::string PrevMess::enterLogPass(std::string _stateProgram)
 	resultStr = "*"+_password+":"+_login+":--:6:"+_stateProgram+":--&" ;
 	return resultStr;
 }
+void  PrevMess::showMessages()
+{
+	int a = 5;
+}
