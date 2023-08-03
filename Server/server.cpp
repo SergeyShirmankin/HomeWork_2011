@@ -72,6 +72,8 @@ void processRequest()
         else if(tempRequest.compare("6")==0) //Авторизация  на лог и пароль 
             objLogPass.enterLogPass();
 
+        else if(tempRequest.compare("9")==0) //Запрос о количеси\тве зарегестрированых пользователях
+            objLogPass.isUsersCount();
 
           std::string logMessForClient=objLogPass.createMessLogToClient();
           std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;

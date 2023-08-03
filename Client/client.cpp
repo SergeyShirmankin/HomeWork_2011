@@ -23,6 +23,8 @@
      10. Ответ о количестве пользователей
      11 Получить сообщения от пользователей
      12 Ответ о получения сообщения 
+     .......
+     100. Простое строковое сообщение без структуры
 
   ---Структура сообщения
      -- Пароль пользователя  отправителя сообщения >> PasswordUser:value
@@ -143,7 +145,13 @@ void sendRequest(){
 		               if (key == 'в') { break; }
 		               else 
                      {
-			              std::cout << "Online users: ";  
+			            std::string	resultStr =  "*--:--:--:9:--:--&" ;
+                        strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
+                        sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
+                        std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
+                        std::cout << "Дождитесь ответа от сервера ..." << std::endl;
+                        recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
+                         objLogPass.parserMessage(buffer);
                      } 
                   }  
             }    
