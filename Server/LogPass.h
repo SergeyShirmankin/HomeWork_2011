@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include "Messages.h"
 class Log_pass 
 {
@@ -34,6 +35,7 @@ public:
 	std::string enterLogPass();
 	void showMessages();
 	void printLogPass();
+	std::vector<std::string>  countUser();
 //----------------------------------------------------------------------
 	int AddScore(int idNumber, Messages score);
 	void findMess();

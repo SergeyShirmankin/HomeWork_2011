@@ -6,6 +6,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <vector>
  //-----------------------------------------------------------------
 char buffer[MESSAGE_BUFFER]; 
 char message[MESSAGE_BUFFER];
@@ -39,7 +40,6 @@ std::string  recivMess(char arryChar[]) //формирование сообще�
 //------------------------------------------------------------------
 void processRequest() 
  {
-   // Log_pass* lgPass = new Log_pass; // Создаем обьект логина и пароля
     // Создадим UDP сокет 
     socket_file_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
     serveraddress.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -73,8 +73,23 @@ void processRequest()
             objLogPass.enterLogPass();
 
         else if(tempRequest.compare("9")==0) //Запрос о количеси\тве зарегестрированых пользователях
-            objLogPass.isUsersCount();
-
+            {
+                  std::string tempStr;
+                  std::vector<std::string> tempVector;
+                  tempVector.reserve(3);
+                  tempVector=objLogPass.countUser();
+                  
+                    for (int i = 0; i < tempVector.size(); i++) 
+                     {
+                         tempStr=tempVector[i];
+                         strcpy(message ,tempStr.c_str());//преооразуем строку в массив char
+                        // ответим клиенту
+                         sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+                     }
+                  
+			}
+//----------------------------------------------------------------------------------- 
+        
           std::string logMessForClient=objLogPass.createMessLogToClient();
           std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
           strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char
