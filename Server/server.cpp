@@ -74,15 +74,16 @@ void processRequest()
 
         else if(tempRequest.compare("9")==0) //Запрос о количеси\тве зарегестрированых пользователях
             {
-                  std::string tempStr;
+                  std::string userStr;
                   std::vector<std::string> tempVector;
                   tempVector.reserve(3);
                   tempVector=objLogPass.countUser();
                   
                     for (int i = 0; i < tempVector.size(); i++) 
                      {
-                         tempStr=tempVector[i];
-                         strcpy(message ,tempStr.c_str());//преооразуем строку в массив char
+                         userStr=tempVector[i];
+                         userStr = "*:--:"+userStr+":9:10:--&";
+                         strcpy(message ,userStr.c_str());//преооразуем строку в массив char
                         // ответим клиенту
                          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
                      }

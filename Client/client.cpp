@@ -139,10 +139,10 @@ void sendRequest(){
 	              int countUsers = -1;
 	              while (true)
 	               {
-		               std::cout << "\nДля выхода нажмите клавишу 'в' для продолжения нажмите любую кл и ent";
+		               std::cout << "\nДля выхода нажмите клавишу 'b' для продолжения нажмите любую кл и ent";
 		               std::cout << "\n>> ";
 		               std::cin >> key;
-		               if (key == 'в') { break; }
+		               if (key == 'b') { break; }
 		               else 
                      {
 			            std::string	resultStr =  "*--:--:--:9:--:--&" ;
@@ -151,7 +151,13 @@ void sendRequest(){
                         std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
                         std::cout << "Дождитесь ответа от сервера ..." << std::endl;
                         recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
-                         objLogPass.parserMessage(buffer);
+                        objLogPass.parserMessage(buffer);                                 
+                        tempStateProgram=objLogPass.get_CurrentState();
+                     if(tempStateProgram.compare("10")==0)// успешное создание лога и пароля 
+                         {
+                           std::cout << "\n>> Сообщение полученно от сервера\n " ;
+                           std::cout <<">> Вы находмть под пользователем "<< buffer<<std::endl;
+                         }
                      } 
                   }  
             }    

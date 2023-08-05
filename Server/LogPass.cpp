@@ -258,5 +258,6 @@ std::vector<std::string> Log_pass:: countUser()
         str=it->first;
         r.push_back(str);
 			}
+       return r;
   }
 
