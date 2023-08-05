@@ -29,6 +29,7 @@ public:
 	std::string& get_Messaqge();
     std::string& get_NumMess();  //количество сообщени
     std::string& get_NumCurrMess(); //номер сообщения 
+	std::string&   get_currUser ();
 
     int get_StateProgram();
 
@@ -51,7 +52,7 @@ private:
 	int countObjectLogPass;//счетчик обьектов логов и паролей
 	int StateProgram;
 	int curSession ;
-	std::string currUser ;
+	std::string currUser ;//под этим погином заходят в систему
 	
 	Log_pass* ptrObject;// Указатель на обьект
     std::string login;//поле логина в обьекте

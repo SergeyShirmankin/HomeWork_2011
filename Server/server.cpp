@@ -49,6 +49,7 @@ void processRequest()
     serveraddress.sin_family = AF_INET;
     // Привяжем сокет 
     bind(socket_file_descriptor, (struct sockaddr*)&serveraddress, sizeof(serveraddress));
+    std::string logMessForClient;
     while(1)  
     {
         // Длина сообщения от клиента
@@ -66,13 +67,21 @@ void processRequest()
         tempRequest=objLogPass.get_Request();
        
         if(tempRequest.compare("2")==0)// Создание нового лога и пароля
-            objLogPass.addLogPass();
-             // std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
+           {
+             objLogPass.addLogPass();
+             logMessForClient=objLogPass.createMessLogToClient();
+           }  
 
         else if(tempRequest.compare("6")==0) //Авторизация  на лог и пароль 
-            objLogPass.enterLogPass();
-
-        else if(tempRequest.compare("9")==0) //Запрос о количеси\тве зарегестрированых пользователях
+             logMessForClient=objLogPass.enterLogPass();
+         
+         
+          std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
+          strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char
+          // ответим клиенту
+          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+//-----------------------------------------------------------------------------------       
+         if(tempRequest.compare("9")==0) //Запрос о количеси\тве зарегестрированых пользователях
             {
                   std::string userStr;
                   std::vector<std::string> tempVector;
@@ -81,25 +90,20 @@ void processRequest()
                   std::string strVectorSize=std::to_string(tempVector.size());// для передачи в сообщение ((количество)
                   std::string strVectorCurNum;
                   int size_Vector = tempVector.size();
+                  std::string strCurUser=objLogPass.get_currUser();
                     for (int i = 0; i < size_Vector; i++) 
                      {
                         userStr="";
                         strVectorCurNum=std::to_string(i);
                          userStr=tempVector[i];
-                         userStr = "*:--:"+userStr+":9:10:"+strVectorCurNum+":"+strVectorSize+":-&";
+                         userStr = "*:--:"+strCurUser+":9:10:"+strVectorCurNum+":"+strVectorSize+":-"+userStr+"&";
                          strcpy(message ,userStr.c_str());//преооразуем строку в массив char
                         // ответим клиенту
                          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
                          recvfrom(socket_file_descriptor, buffer, sizeof(buffer), 0, (struct sockaddr*)&client, &length);
-                     }
-                  
+                     }     
 			}
 //----------------------------------------------------------------------------------- 
-          std::string logMessForClient=objLogPass.createMessLogToClient();
-          std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
-          strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char
-          // ответим клиенту
-          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
     }
  
     // закрываем сокет, завершаем соединение

@@ -49,9 +49,7 @@
     
 
             *123123:Misha:--:2:1:1:1--&
- //----------------------------------------------------------------------           
-     Обьект из класса  User создается в момент прихода сообщения либо от 
-     сервера либо от клиента меняет состояние программы и уничтодается!!!!!       
+ //----------------------------------------------------------------------                  
 */
 
 char buffer[MESSAGE_BUFFER] ="Нет ответа от сервера !!!!";
@@ -63,6 +61,7 @@ std::string tempMessage;
 //User user;
 Log_pass  objLogPass;
 std::string tempStateProgram;
+
 
 void sendMess(std::string clientMessage) // формирование строки для  отправки сообщения серверу
 {
@@ -97,6 +96,9 @@ void sendRequest(){
     socket_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
     // Установим соединение с сервером
     PrevMess objPrevMess;
+    bool breakCicle=false;
+
+
     if(connect(socket_descriptor, (struct sockaddr*) &serveraddress, sizeof(serveraddress)) < 0) 
     {
         std::cout << std::endl << " Something went wrong Connection Failed" <<std:: endl;
@@ -140,11 +142,18 @@ void sendRequest(){
 	              int countUsers = -1;
 	              while (true)
 	               {
-		               std::cout << "\nДля выхода нажмите клавишу 'b' для продолжения нажмите любую кл и ent";
+		              // breakCicle=false;
+                       std::cout << "\nДля выхода нажмите клавишу '1' для продолжения нажмите любую кл и ent";
 		               std::cout << "\n>> ";
-		               std::cin >> key;
-		               if (key == 'b') { break; }
-		               else 
+		               std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
+	                   tempMessage = tempCin + " " + tempMessage;
+                       if (tempMessage.compare("1 ")==0) 
+                        {
+                           // autorization=false;
+                            // breakCicle=true;
+                            break;  
+                        }
+                       else 
                      {
 			            std::string	resultStr =  "*--:--:--:9:--:1:1:--&" ;
                         strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
@@ -161,13 +170,15 @@ void sendRequest(){
                             for (int localTemp=0;localTemp< res;localTemp++)
                                 {
                                  std::cout << "\n>> Сообщение полученно от сервера\n " ;
-                                 std::cout <<">> Online users "<<objLogPass.get_NameUserRecive() <<std::endl;
+                                 std::cout <<">> Online users "<<objLogPass.get_Messaqge() <<std::endl;
                                  std::string	resultStr =  "*--:--:--:--:--:--:--:--&" ;
                                  strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
                                  sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));
                                  recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr);  //синхрогизация сообщений
                                  objLogPass.parserMessage(buffer);//парсинг сообщения
                                 }
+                        std::cout << "\nStart Session[" << objLogPass.get_NameUserSend() << "]:\n";
+			            std::cout << "Hello " << objLogPass.get_NameUserSend() << "\n";
                          }
                      } 
                   }  
@@ -200,7 +211,7 @@ void sendRequest(){
               std::cout << "\n>> Сообщение полученно от сервера \n" ;
               std::cout<<">> Такой пароль уже есть!!!\n" ;
           }
-         else if(tempStateProgram.compare("7")==0)//успешная авторизация
+         else if(tempStateProgram.compare("7")==0 )//успешная авторизация
           {
               std::cout << "\n>> Сообщение полученно от сервера \n" ;
               std::cout<<">> Успешное авторизация!!!!\n" ;
