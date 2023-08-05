@@ -149,7 +149,8 @@ void sendRequest(){
 			            std::string	resultStr =  "*--:--:--:9:--:1:1:--&" ;
                         strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
                         sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
-                        std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
+                       // std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
+                        std::cout << "Сообщение успешно было отправленно на сервер:  "<< std::endl;
                         std::cout << "Дождитесь ответа от сервера ..." << std::endl;
                         recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
                         objLogPass.parserMessage(buffer);                                 
@@ -161,6 +162,11 @@ void sendRequest(){
                                 {
                                  std::cout << "\n>> Сообщение полученно от сервера\n " ;
                                  std::cout <<">> Online users "<<objLogPass.get_NameUserRecive() <<std::endl;
+                                 std::string	resultStr =  "*--:--:--:--:--:--:--:--&" ;
+                                 strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
+                                 sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));
+                                 recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr);  //синхрогизация сообщений
+                                 objLogPass.parserMessage(buffer);//парсинг сообщения
                                 }
                          }
                      } 

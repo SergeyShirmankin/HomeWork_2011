@@ -80,15 +80,17 @@ void processRequest()
                   tempVector=objLogPass.countUser();
                   std::string strVectorSize=std::to_string(tempVector.size());// для передачи в сообщение ((количество)
                   std::string strVectorCurNum;
-                    for (int i = 0; i < tempVector.size(); i++) 
+                  int size_Vector = tempVector.size();
+                    for (int i = 0; i < size_Vector; i++) 
                      {
+                        userStr="";
                         strVectorCurNum=std::to_string(i);
                          userStr=tempVector[i];
-                         //userStr = "*:--:"+userStr+":9:10:--&";
                          userStr = "*:--:"+userStr+":9:10:"+strVectorCurNum+":"+strVectorSize+":-&";
                          strcpy(message ,userStr.c_str());//преооразуем строку в массив char
                         // ответим клиенту
                          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+                         recvfrom(socket_file_descriptor, buffer, sizeof(buffer), 0, (struct sockaddr*)&client, &length);
                      }
                   
 			}
