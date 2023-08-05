@@ -53,7 +53,7 @@ std::string PrevMess::InterfaceLogPass(bool StartFunction)//Создаесм с�
 			{
 			case'n':
 				 tempStr=addLogPass();
-				 tempStr="*"+tempStr+":--:2:1:--&";
+				 tempStr="*"+tempStr+":--:2:1:1:1:--&";
 				 return tempStr;
 			defalt:
 				std::cout << "Неправильно выбрали букву";
@@ -78,7 +78,7 @@ std::string PrevMess::enterLogPass(std::string _stateProgram)
 	std::cout << "Введите пароль\n";
 	std::cout << ">> ";
 	std::cin >> _password;
-	resultStr = "*"+_password+":"+_login+":--:6:"+_stateProgram+":--&" ;
+	resultStr = "*"+_password+":"+_login+":--:6:"+_stateProgram+":1:1:--&" ;
 	return resultStr;
 }
 void  PrevMess::showMessages()

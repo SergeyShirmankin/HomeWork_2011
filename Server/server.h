@@ -38,10 +38,12 @@ std::string  recivMess(char arryChar[]);
          --  NameUserRecive:-- (нет получателя ) для сообщения
          --  Request:2; 
          --  CarrentState:1
+         --  NumCurrMess:1 //номер сообщения 
+         --  NumMess:1  //количество сообщение
          --  Messaqge:--(нет сообщения)
     
 
-            *123123:Misha:--:2:1:--&
+            *123123:Misha:--:2:1:1:1--&
            
  */
   

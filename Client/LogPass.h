@@ -13,6 +13,8 @@ public:
 	void set_Request(const std::string& );
 	void set_CurrentState(const std::string&) ;
 	void set_Messaqge(const std::string& );
+   	void set_NumMess(const std::string& );  //количество сообщени
+    void set_NumCurrMess(const std::string& ); //номер сообщения 
     void set_StateProgram(int );
     void addLogPass();
 	
@@ -23,7 +25,8 @@ public:
 	std::string& get_CurrentState();
 	std::string& get_Messaqge();
     std::string get_StateProgram();
-
+    std::string& get_NumMess();  //количество сообщени
+    std::string& get_NumCurrMess(); //номер сообщения 
 //-----------------------------------------------------------------------
 private:
 	int countObjectLogPass;//счетчик обьектов логов и паролей
@@ -34,5 +37,7 @@ private:
     std::string NameUserRecive;//  Имя пользователя принимающего сообщения 
     std::string Request;// Запрос на измененимя состояния (команда)
     std::string CurrentState;//Текущее состояние программы 
+	std::string NumCurrMess; //номер сообщения 
+    std::string NumMess;  //количество сообщени
     std::string Messaqge;
 };

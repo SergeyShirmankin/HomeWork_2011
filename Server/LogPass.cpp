@@ -36,6 +36,14 @@ void Log_pass::set_PasswUser(const std::string& newPasswUser)
   {
       Messaqge = newMessaqge;
   }
+   void Log_pass::set_NumMess(const std::string& newNumMess)
+  {
+        NumMess=newNumMess;
+  }
+  void Log_pass::set_NumCurrMess(const std::string& newNumCurrMess )
+  {
+        NumCurrMess=newNumCurrMess;
+  }
 
 
 std::string& Log_pass::get_NameUserSend()
@@ -66,6 +74,14 @@ std::string& Log_pass::get_PasswordUser()
   {
     return StateProgram;
   }
+      std::string& Log_pass::get_NumMess()  //количество сообщени
+    {
+         return NumMess;
+    }
+    std::string& Log_pass::get_NumCurrMess() //номер сообщения 
+    {
+        return NumCurrMess;
+    }
 
 void Log_pass::parser(char arrChar[])
 {
@@ -132,7 +148,28 @@ void Log_pass::parser(char arrChar[])
              tempLogin=get_CurrentState();
              std::cout<<"CurrentState = "<<tempLogin<<std::endl;
              #endif
+ //-------------------Вставка новых полей---------------------------------------------------
+             oldPos=pos;
+
+             pos = line.find(delimiter,oldPos+1);
+             set_NumCurrMess(line.substr(oldPos+1, pos- oldPos-1));//Устанавливаем в приватном поле имя
             
+             #ifdef DEBUG 
+             tempLogin=get_NumCurrMess();
+             std::cout<<"NumCurrMess = "<<tempLogin<<std::endl;
+             #endif
+
+            oldPos=pos;
+
+             pos = line.find(delimiter,oldPos+1);
+             set_NumMess(line.substr(oldPos+1, pos- oldPos-1));//Устанавливаем в приватном поле имя
+            
+             #ifdef DEBUG 
+             tempLogin=get_NumMess();
+             std::cout<<"NumMess = "<<tempLogin<<std::endl;
+             #endif
+//----------------------------------------------------------------------------------------
+
             oldPos=pos;
 
              pos = line.find(delimiter,oldPos+1);
@@ -205,8 +242,9 @@ void Log_pass::addLogPass()
 std::string Log_pass::createMessLogToClient()
 {
  std::string tempStr;
-  //  *123123:Misha:--:2:1:--&
-    tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
+  //  *123123:Misha:--:2:1:1:1--&
+   // tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
+   tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":1:1:--&";
   return tempStr;
 }
 //-----------------------------------------------------------------------------------------------
@@ -231,14 +269,15 @@ std::string Log_pass::enterLogPass()
 		    	currUser = it->first;
       		resultCompare = true;
           CurrentState = "7";
-          tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
+       //   tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":--&";
+          tempStr = "*"+password+":"+login+":"+"--:"+Request+":"+CurrentState+":1:1:--&";
           return tempStr;
     	}
 	}
-	// "Not access.\n ";
-  // *123123:Misha:--:2:1:--&
     CurrentState = "8";
-    tempStr = "*:--:--:"+Request+":"+CurrentState+":--&";
+   // tempStr = "*:--:--:"+Request+":"+CurrentState+":--&";
+   tempStr = "*:--:--:"+Request+":"+CurrentState+":1:1:--&";
+   
      return tempStr;
 }
 //--------------------------------------------------------------------------------------------------
@@ -255,6 +294,9 @@ std::vector<std::string> Log_pass:: countUser()
     for (auto it = _log_pass.begin(); it != _log_pass.end(); ++it)
 			{
 				countUsers++;
+          #ifdef DEBUG 
+            std::cout << it->first << "[" << countUsers << "], ";
+          #endif 
         str=it->first;
         r.push_back(str);
 			}

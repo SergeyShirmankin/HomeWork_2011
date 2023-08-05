@@ -78,11 +78,14 @@ void processRequest()
                   std::vector<std::string> tempVector;
                   tempVector.reserve(3);
                   tempVector=objLogPass.countUser();
-                  
+                  std::string strVectorSize=std::to_string(tempVector.size());// для передачи в сообщение ((количество)
+                  std::string strVectorCurNum;
                     for (int i = 0; i < tempVector.size(); i++) 
                      {
+                        strVectorCurNum=std::to_string(i);
                          userStr=tempVector[i];
-                         userStr = "*:--:"+userStr+":9:10:--&";
+                         //userStr = "*:--:"+userStr+":9:10:--&";
+                         userStr = "*:--:"+userStr+":9:10:"+strVectorCurNum+":"+strVectorSize+":-&";
                          strcpy(message ,userStr.c_str());//преооразуем строку в массив char
                         // ответим клиенту
                          sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
@@ -90,7 +93,6 @@ void processRequest()
                   
 			}
 //----------------------------------------------------------------------------------- 
-        
           std::string logMessForClient=objLogPass.createMessLogToClient();
           std::cout << "ответное сообщение клиенту >> "<<logMessForClient << std::endl;
           strcpy(message ,logMessForClient.c_str());//преооразуем строку в массив char

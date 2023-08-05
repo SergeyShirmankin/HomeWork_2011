@@ -14,7 +14,10 @@ public:
 	void set_NameUserRecive(const std::string& );
 	void set_Request(const std::string& );
 	void set_CurrentState(const std::string&) ;
+	void set_NumMess(const std::string& );  //количество сообщени
+    void set_NumCurrMess(const std::string& ); //номер сообщения 
 	void set_Messaqge(const std::string& );
+	std::string Messaqge;
     void set_StateProgram(int );
 
 	
@@ -24,6 +27,9 @@ public:
 	std::string& get_Request();
 	std::string& get_CurrentState();
 	std::string& get_Messaqge();
+    std::string& get_NumMess();  //количество сообщени
+    std::string& get_NumCurrMess(); //номер сообщения 
+
     int get_StateProgram();
 
 //----------------------------------------------------------------------
@@ -56,7 +62,9 @@ private:
     std::string NameUserRecive;//  Имя пользователя принимающего сообщения 
     std::string Request;// Запрос на измененимя состояния (команда)
     std::string CurrentState;//Текущее состояние программы 
-    std::string Messaqge;
+    std::string NumCurrMess; //номер сообщения 
+    std::string NumMess;  //количество сообщени
+	//std::string Messaqge;
 	std::map<std::string,std::string> _log_pass;
 	std::map<int, Messages> _messages;
 	void writeUser();

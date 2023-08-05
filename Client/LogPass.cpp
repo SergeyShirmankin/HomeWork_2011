@@ -32,6 +32,14 @@ void Log_pass::set_PasswUser(const std::string& newPasswUser)
   {
         CurrentState=newCurrentStat;
   }
+ void Log_pass::set_NumMess(const std::string& newNumMess)
+  {
+        NumMess=newNumMess;
+  }
+  void Log_pass::set_NumCurrMess(const std::string& newNumCurrMess )
+  {
+        NumCurrMess=newNumCurrMess;
+  }
 	void Log_pass::set_Messaqge(const std::string& newMessaqge)
   {
       Messaqge = newMessaqge;
@@ -66,8 +74,14 @@ std::string& Log_pass::get_PasswordUser()
   {
     return StateProgram;
   }
-
-
+    std::string& Log_pass::get_NumMess()  //количество сообщени
+    {
+         return NumMess;
+    }
+    std::string& Log_pass::get_NumCurrMess() //номер сообщения 
+    {
+        return NumCurrMess;
+    }
 void Log_pass::parserMessage(char arrChar[])
 {
         std::string delimiter=":";
@@ -133,7 +147,27 @@ void Log_pass::parserMessage(char arrChar[])
              tempLogin=get_CurrentState();
              std::cout<<"CurrentState = "<<tempLogin<<std::endl;
              #endif
+//-----------------------------------------------------------------------------------------
+            oldPos=pos;
+
+             pos = line.find(delimiter,oldPos+1);
+             set_NumCurrMess(line.substr(oldPos+1, pos- oldPos-1));//Устанавливаем в приватном поле имя
             
+             #ifdef DEBUG 
+             tempLogin=get_NumCurrMess();
+             std::cout<<"NumCurrMess = "<<tempLogin<<std::endl;
+             #endif
+
+            oldPos=pos;
+
+             pos = line.find(delimiter,oldPos+1);
+             set_NumMess(line.substr(oldPos+1, pos- oldPos-1));//Устанавливаем в приватном поле имя
+            
+             #ifdef DEBUG 
+             tempLogin=get_NumMess();
+             std::cout<<"NumMess = "<<tempLogin<<std::endl;
+             #endif
+//----------------------------------------------------------------------------------------
             oldPos=pos;
 
              pos = line.find(delimiter,oldPos+1);
