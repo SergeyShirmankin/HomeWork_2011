@@ -154,11 +154,14 @@ void sendRequest(){
                         recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
                         objLogPass.parserMessage(buffer);                                 
                         tempStateProgram=objLogPass.get_CurrentState();
+                         int res =std::stoi(objLogPass.get_NumMess());
                      if(tempStateProgram.compare("10")==0)// успешное создание лога и пароля 
                          {
-                           std::cout << "\n>> Сообщение полученно от сервера\n " ;
-                          // std::cout <<">> Вы находмть под пользователем "<< buffer<<std::endl;
-                           std::cout <<">> Вы находмть под пользователем "<< buffer<<std::endl;
+                            for (int localTemp=0;localTemp< res;localTemp++)
+                                {
+                                 std::cout << "\n>> Сообщение полученно от сервера\n " ;
+                                 std::cout <<">> Online users "<<objLogPass.get_NameUserRecive() <<std::endl;
+                                }
                          }
                      } 
                   }  

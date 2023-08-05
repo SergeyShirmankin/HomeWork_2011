@@ -288,16 +288,20 @@ std::vector<std::string> Log_pass:: countUser()
         int countUsers = -1;
         std::vector<std::string> r;
         std::string str;
+        std::string strCountUser;
          r.reserve(3);// принял ограничение по 3 useram
 
        //-----------------------------------------------------------------------------------
     for (auto it = _log_pass.begin(); it != _log_pass.end(); ++it)
 			{
 				countUsers++;
+        strCountUser=std::to_string(countUsers);
           #ifdef DEBUG 
             std::cout << it->first << "[" << countUsers << "], ";
           #endif 
+        
         str=it->first;
+        str=str+" ["+ strCountUser + "], ";
         r.push_back(str);
 			}
        return r;
