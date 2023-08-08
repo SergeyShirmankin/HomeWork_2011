@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include "client.h"
 #include "prepMess.h"
+#include "logic.h"
 //#include "User.h" 
 #define ESC "\033"
 
@@ -62,14 +63,30 @@ std::string tempMessage;
 Log_pass  objLogPass;
 std::string tempStateProgram;
 
-
+//---------------------------------------------------------------------
+void treeger(Logic& inLogogic)
+{
+	if (inLogogic.temp1 && inLogogic.signal1)
+	{
+		inLogogic.temp1 = false;
+		inLogogic.temp2 = true;
+		std::cout << "State1" << std::endl;
+	}
+	else if (inLogogic.temp2 && inLogogic.signal2)
+	{
+		inLogogic.temp1 = true;
+		inLogogic.temp2 = false;
+		std::cout << "State2" << std::endl;
+	}
+}
+//----------------------------------------------------------------------
 void sendMess(std::string clientMessage) // формирование строки для  отправки сообщения серверу
 {
      char tempChar='t';//инициализация пустой ячейки  значением "temp"
      // отправляем сообщение серверу 
      strcpy(message ,clientMessage.c_str());
 }
-
+//-----------------------------------------------------------------------
 std::string  recivMess(char arryChar[]) //формирование сообщения для полученная с сервера  
 {
      char tempChar='t';//инициализация пустой ячейки  значением "temp"
@@ -83,7 +100,7 @@ std::string  recivMess(char arryChar[]) //формирование сообще�
      }
      return  tempStr;
 }
- 
+ //---------------------------------------------------------------------------
 void sendRequest(){
    bool autorization =false;//переменная для авторизацииж 
     // Укажем адрес сервера
@@ -97,7 +114,7 @@ void sendRequest(){
     // Установим соединение с сервером
     PrevMess objPrevMess;
     bool breakCicle=false;
-
+    Logic shema1;
 
     if(connect(socket_descriptor, (struct sockaddr*) &serveraddress, sizeof(serveraddress)) < 0) 
     {
@@ -112,9 +129,8 @@ void sendRequest(){
             std::cout<<"Для завершения работы наберите  --end--   или  --log--  для создание логина и пароля  --enter-- авторизации на сервере "<<std::endl;
             std::cout<< ">>"<< std::endl;
             std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
-	         tempMessage = tempCin + " " + tempMessage;
+	        tempMessage = tempCin + " " + tempMessage;
             strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char
- //       if (strcmp(message, "end") == 0)  
             if (tempMessage.compare("end ")==0) 
                 { //Закрываем соединение при отпрвке сообщения "end"
                    sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));
@@ -140,7 +156,7 @@ void sendRequest(){
             {
                  char key;
 	              int countUsers = -1;
-	              while (true)
+	              while (shema1.temp1 == true)
 	               {
 		              // breakCicle=false;
                        std::cout << "\nДля выхода нажмите клавишу '1' для продолжения нажмите любую кл и ent";
@@ -148,13 +164,22 @@ void sendRequest(){
 		               std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
 	                   tempMessage = tempCin + " " + tempMessage;
                        if (tempMessage.compare("1 ")==0) 
-                        {
-                           // autorization=false;
-                            // breakCicle=true;
-                            break;  
-                        }
+                       {
+                        	shema1.signal1 = true;
+                            treeger(shema1);
+                            shema1.signal1 = false;
+                       }
+                       	   if (shema1.temp1 == false)
+		                    	break;
                        else 
                      {
+                        shema1.signal2 = true;
+			            treeger(shema1);
+			            shema1.signal2 = false;
+                       
+                        if (shema1.temp1 == false)
+		                    break;
+
 			            std::string	resultStr =  "*--:--:--:9:--:1:1:--&" ;
                         strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
                         sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
@@ -182,10 +207,13 @@ void sendRequest(){
                          }
                      } 
                   }  
+
             }    
 //--------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------
+ 
+
       sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
       std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
       std::cout << "Дождитесь ответа от сервера ..." << std::endl;
@@ -196,6 +224,7 @@ void sendRequest(){
              //std::cout << "Сообщение полученно от сервера " << std::endl; 
             
        tempStateProgram=objLogPass.get_CurrentState();
+       std::string  tempRequestProgram= objLogPass.get_Request();
          if(tempStateProgram.compare("3")==0)// успешное создание лога и пароля 
           {
                std::cout << "\n>> Сообщение полученно от сервера\n " ;
@@ -211,7 +240,7 @@ void sendRequest(){
               std::cout << "\n>> Сообщение полученно от сервера \n" ;
               std::cout<<">> Такой пароль уже есть!!!\n" ;
           }
-         else if(tempStateProgram.compare("7")==0 )//успешная авторизация
+         else if(tempStateProgram.compare("7")==0 && tempRequestProgram.compare("6")==0)//успешная авторизация
           {
               std::cout << "\n>> Сообщение полученно от сервера \n" ;
               std::cout<<">> Успешное авторизация!!!!\n" ;
@@ -229,7 +258,8 @@ void sendRequest(){
              // objLogPass.addLogPass();
              // std::cout << "Сообщение полученно от клиента >> " << buffer << std::endl;
              // std::cout <<  buffer << std::endl;
-    }        
+        }
+           
     // закрываем сокет, завершаем соединение
     close(socket_descriptor);
  }

@@ -5,5 +5,6 @@
 void sendMess(std::string clientMessage); // формирование строки для  отправки сообщения серверу
 std::string  recivMess(char arryChar[]);  //формирование сообщения для полученная с сервера  
 void sendRequest();
+
   
  

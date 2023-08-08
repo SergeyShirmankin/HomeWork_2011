@@ -1,7 +1,7 @@
 #include <iostream>
 #include "LogPass.h"
 #include "client.h"
-#define DEBUG1
+#define DEBUG
 Log_pass::Log_pass()//конструктор по умолчанию
 {
 	StateProgram="1";
