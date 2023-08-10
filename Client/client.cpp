@@ -80,6 +80,8 @@ void treeger(Logic& inLogogic)
 	}
 }
 //----------------------------------------------------------------------
+
+//----------------------------------------------------------------------
 void sendMess(std::string clientMessage) // формирование строки для  отправки сообщения серверу
 {
      char tempChar='t';//инициализация пустой ячейки  значением "temp"
@@ -100,6 +102,63 @@ std::string  recivMess(char arryChar[]) //формирование сообще�
      }
      return  tempStr;
 }
+ //---------------------------------------------------------------------------
+/* void activatedUser(Logic &shema2)
+{
+                 char key;
+	              int countUsers = -1;
+	              while (shema2.temp1 == true)
+	               {
+		              // breakCicle=false;
+                       std::cout << "\nДля выхода нажмите клавишу '1' для продолжения нажмите любую кл и ent";
+		               std::cout << "\n>> ";
+		               std::getline(std::cin >> tempCin, tempMessage);//забираем всю строку
+	                   tempMessage = tempCin + " " + tempMessage;
+                       if (tempMessage.compare("1 ")==0) 
+                       {
+                        	shema2.signal1 = true;
+                            treeger(shema2);
+                            shema2.signal1 = false;
+                       }
+                       	   if (shema2.temp1 == false)
+		                    	return;
+                       else 
+                     {
+                        shema2.signal2 = true;
+			            treeger(shema2);
+			            shema2.signal2 = false;
+                       
+                        if (shema2.temp1 == false)
+		                    return;
+
+			            std::string	resultStr =  "*--:--:--:9:--:1:1:--&" ;
+                        strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
+                        sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
+                       // std::cout << "Сообщение успешно было отправленно на сервер:  " <<  message << std::endl;
+                        std::cout << "Сообщение успешно было отправленно на сервер:  "<< std::endl;
+                        std::cout << "Дождитесь ответа от сервера ..." << std::endl;
+                        recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr); //получение сообщения от сервера
+                        objLogPass.parserMessage(buffer);                                 
+                        tempStateProgram=objLogPass.get_CurrentState();
+                         int res =std::stoi(objLogPass.get_NumMess());
+                     if(tempStateProgram.compare("10")==0)// успешное создание лога и пароля 
+                         {
+                            for (int localTemp=0;localTemp< res;localTemp++)
+                                {
+                                 std::cout << "\n>> Сообщение полученно от сервера\n " ;
+                                 std::cout <<">> Online users "<<objLogPass.get_Messaqge() <<std::endl;
+                                 std::string	resultStr =  "*--:--:--:--:--:--:--:--&" ;
+                                 strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
+                                 sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));
+                                 recvfrom(socket_descriptor, buffer, sizeof(buffer), 0, nullptr, nullptr);  //синхрогизация сообщений
+                                 objLogPass.parserMessage(buffer);//парсинг сообщения
+                                }
+                        std::cout << "\nStart Session[" << objLogPass.get_NameUserSend() << "]:\n";
+			            std::cout << "Hello " << objLogPass.get_NameUserSend() << "\n";
+                         }
+                     } 
+                  }  
+}*/
  //---------------------------------------------------------------------------
 void sendRequest(){
    bool autorization =false;//переменная для авторизацииж 
@@ -154,6 +213,8 @@ void sendRequest(){
  //-----------------------------Программа работы ссобщениямми---------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------------------------------
             {
+            //  activatedUser(shema1);
+               
                  char key;
 	              int countUsers = -1;
 	              while (shema1.temp1 == true)
@@ -170,7 +231,11 @@ void sendRequest(){
                             shema1.signal1 = false;
                        }
                        	   if (shema1.temp1 == false)
-		                    	break;
+                           {
+                                tempMessage = "*--:--:--:--:--:--:--:--&";//Формируем пустое сообщение
+                                strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char	                    
+                            	break;
+                           }     
                        else 
                      {
                         shema1.signal2 = true;
@@ -178,8 +243,11 @@ void sendRequest(){
 			            shema1.signal2 = false;
                        
                         if (shema1.temp1 == false)
-		                    break;
-
+                        {
+		                        tempMessage = "*--:--:--:--:--:--:--:--&";//Формируем пустое сообщение
+                                strcpy(message ,tempMessage.c_str());//преооразуем строку в массив char	 
+                            break;
+                        }
 			            std::string	resultStr =  "*--:--:--:9:--:1:1:--&" ;
                         strcpy(message ,resultStr .c_str());//преооразуем строку в массив char
                         sendto(socket_descriptor, message, MESSAGE_BUFFER, 0, nullptr, sizeof(serveraddress));//отправка сообщения серверу
@@ -207,7 +275,7 @@ void sendRequest(){
                          }
                      } 
                   }  
-
+              
             }    
 //--------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------
@@ -245,6 +313,7 @@ void sendRequest(){
               std::cout << "\n>> Сообщение полученно от сервера \n" ;
               std::cout<<">> Успешное авторизация!!!!\n" ;
               autorization=true; 
+ //             objLogPass.set_CurrentState("--");
           }
          else if(tempStateProgram.compare("8")==0)//Нету доступа
           {

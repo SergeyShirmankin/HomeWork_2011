@@ -104,8 +104,14 @@ void processRequest()
                      }     
 			}
 //----------------------------------------------------------------------------------- 
+//--------------------Пустое сообщение-----------------------------------------------
+         if(tempRequest.compare("--")==0) //Запрос о количеси\тве зарегестрированых пользователях
+            {
+                   std::string  emtyMessage = "*--:--:--:--:--:--:--:--&";
+                   strcpy(message ,emtyMessage .c_str());//преооразуем строку в массив char
+                   sendto(socket_file_descriptor, message, MESSAGE_BUFFER, 0, (struct sockaddr*)&client, sizeof(client));
+            }
     }
- 
     // закрываем сокет, завершаем соединение
     close(socket_file_descriptor);
 }
